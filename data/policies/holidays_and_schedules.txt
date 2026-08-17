@@ -1,0 +1,161 @@
+COMPANY HOLIDAYS AND WORKING SCHEDULES
+
+PURPOSE AND SCOPE
+
+This document lists the observed company holidays at Northwind Systems, a
+fictional company used for coursework, and explains how working schedules,
+core hours, and office closures operate. It applies to all employees in the
+United States.
+
+Company holidays are paid days on which the company is closed. They are not
+deducted from the paid time off bank. A company holiday falling inside an
+approved period of paid time off is recorded as a holiday, not as PTO.
+
+
+OBSERVED HOLIDAYS
+
+The company observes eleven fixed holidays each calendar year:
+
+  New Year's Day
+  Martin Luther King Jr. Day
+  Presidents Day
+  Memorial Day
+  Juneteenth
+  Independence Day
+  Labor Day
+  Thanksgiving Day
+  Day after Thanksgiving
+  Christmas Eve
+  Christmas Day
+
+Where a fixed holiday falls on a Saturday, it is observed on the preceding
+Friday. Where it falls on a Sunday, it is observed on the following Monday.
+
+
+FLOATING HOLIDAYS
+
+In addition to the eleven fixed holidays, each employee receives two floating
+holidays per calendar year. Floating holidays exist so that employees can
+observe days of personal, cultural, or religious significance that are not on
+the fixed list.
+
+Floating holidays are requested in the same way as paid time off and require
+manager approval, but they are drawn from a separate balance and do not reduce
+the PTO bank.
+
+Floating holidays do not carry over. Unused floating holidays are forfeited on
+December 31 and are not paid out on separation.
+
+Employees joining after July 1 receive one floating holiday for that calendar
+year.
+
+
+YEAR-END CLOSURE
+
+The company closes between Christmas Day and New Year's Day. The closure is
+paid and is not deducted from the PTO bank.
+
+A small on-call rotation covers customer-facing and infrastructure functions
+during the closure. Employees who work during the closure receive equivalent
+time off in January, arranged with their manager.
+
+The on-call rotation for the closure is published by November 1 so that
+employees can plan.
+
+
+CORE HOURS
+
+Each team publishes core hours during which its members are expected to be
+available for meetings and collaboration. Core hours are a window, not a full
+working day, and are normally four to five hours long.
+
+Outside core hours, employees manage their own schedule provided their work is
+delivered and their calendar accurately reflects their availability.
+
+Employees working from an approved temporary location in a different time zone
+remain subject to their team's core hours. Approval of a temporary work
+location does not change core hours; see the Remote Work and Location Policy.
+
+
+ALTERNATIVE AND COMPRESSED SCHEDULES
+
+An employee may request a compressed schedule, such as four longer days per
+week, or a shifted schedule that starts and ends earlier or later than the
+standard day.
+
+Requests are made to the manager and reviewed against coverage needs. Approved
+alternative schedules are recorded in the employee record because they change
+how paid time off is calculated: an employee on a compressed schedule records
+the hours they were actually scheduled to work, not a flat eight hours.
+
+An approved alternative schedule is reviewed at least annually and may be
+adjusted where business needs change, with reasonable notice to the employee.
+
+
+UNSCHEDULED OFFICE CLOSURES
+
+Where an office closes unexpectedly, for weather, a utility failure, or a
+safety incident, the closure is paid and is not deducted from the PTO bank.
+
+Employees who are able to work remotely during an unscheduled closure are
+expected to do so unless the closure notice says otherwise.
+
+Closure notices are sent through the emergency notification system, so
+employees should keep their contact details current in the self-service
+record.
+
+
+RELIGIOUS OBSERVANCE
+
+An employee who needs time off for religious observance beyond their floating
+holidays should raise it with their manager or People Operations. The company
+accommodates religious observance where doing so does not create an undue
+hardship, using floating holidays, PTO, schedule adjustment, or unpaid time as
+appropriate.
+
+These requests are handled by People Operations where an employee prefers not
+to discuss the matter with their manager.
+
+
+ON-CALL AND WEEKEND WORK
+
+Employees in on-call rotations receive the on-call differential published by
+Payroll. On-call schedules are published at least two weeks in advance.
+
+An employee who is called out and works during an off-hours period should
+record the time. Non-exempt employees are paid for that time in accordance
+with applicable law.
+
+Managers should not schedule an employee for on-call duty during that
+employee's approved paid time off.
+
+
+COMMON QUESTIONS
+
+Q: A company holiday falls in the middle of my approved vacation. Does it come
+   out of my PTO balance?
+A: No. The holiday is recorded as a holiday and only the remaining days are
+   deducted from your PTO balance.
+
+Q: Can I carry my unused floating holidays into next year?
+A: No. Floating holidays are forfeited on December 31 and are not paid out.
+
+Q: I want to observe a religious holiday not on the fixed list.
+A: Use a floating holiday, or speak with People Operations if you need more
+   time than your floating holidays cover.
+
+Q: Do I have to take PTO during the year-end closure?
+A: No. The closure is paid and does not reduce your PTO balance.
+
+Q: I work a four-day compressed schedule. How much PTO does one day off cost?
+A: The hours you were scheduled to work that day. On a four-day schedule of
+   ten-hour days, one day off is ten hours, not eight.
+
+
+EXCEPTIONS AND INTERPRETATION
+
+People Operations owns this document. The holiday calendar is confirmed each
+year before open enrolment and published in the self-service portal.
+
+Employees working outside the United States follow the holiday calendar of
+their work location, published separately by People Operations.

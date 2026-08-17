@@ -1,0 +1,35 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: ruff check app tests evaluation scripts
+
+      - name: Import check
+        run: python -c "from app.main import app; print(app.title)"
+
+      - name: Build the lexical policy index
+        run: RAG_BACKEND=lexical python scripts/build_rag_index.py
+
+      - name: Unit, RAG and MCP tests
+        run: python -m pytest -q
+
+      - name: App-start and health smoke test
+        run: python scripts/smoke_test.py
+
+      - name: MCP tool discovery and live tool call
+        run: python scripts/mcp_check.py

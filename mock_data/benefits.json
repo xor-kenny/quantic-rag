@@ -1,0 +1,5 @@
+[
+  {"employee_id":"E1001","status":"active","plans":["Medical Gold","Dental","401(k)"]},
+  {"employee_id":"E1002","status":"not eligible","plans":[]},
+  {"employee_id":"E1003","status":"active","plans":["Medical Silver","Dental","401(k)"]}
+]

@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: clearhr-agentic-hr-assistant
+    runtime: python
+    plan: free
+    # Build/cache the backend selected by the non-secret RAG_BACKEND setting.
+    # A dense build itself verifies the local ONNX model can be downloaded and
+    # indexed before the service starts. The test suite is not repeated here:
+    # `autoDeployTrigger: checksPass` below already gates automatic deploys on
+    # GitHub CI, so the host build installs runtime dependencies only.
+    buildCommand: pip install --disable-pip-version-check -r requirements.txt && python scripts/build_rag_index.py
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    # Render waits for the repository's GitHub checks before starting an
+    # automatic deploy. This gates pushes, not a manually triggered "Deploy
+    # latest commit" or the first Blueprint apply, so check CI before either.
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: RAG_BACKEND
+        # Declared here rather than left to a dashboard/global value so the
+        # repository states which retriever the deployed service runs. A
+        # service-level blueprint value also takes precedence over an
+        # environment-group one, so a global setting would be shadowed by this
+        # entry rather than overriding it.
+        #
+        # The build command above reads the same variable, so this selects both
+        # the index that gets built and the retriever that serves requests; the
+        # two must not disagree or the app starts without its index.
+        #
+        # Rollback is this one line back to `lexical`.
+        value: dense

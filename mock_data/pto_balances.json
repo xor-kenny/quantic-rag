@@ -1,0 +1,5 @@
+[
+  {"employee_id":"E1001","available_hours":40,"accrual_rate_hours_per_pay_period":6.15},
+  {"employee_id":"E1002","available_hours":12,"accrual_rate_hours_per_pay_period":2.0},
+  {"employee_id":"E1003","available_hours":72,"accrual_rate_hours_per_pay_period":6.15}
+]

@@ -1,0 +1,1654 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a43">
+  <title>ClearHR · HR Policy Workspace</title>
+  <style>
+    :root {
+      color: #102a43;
+      background: #f5f7fb;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      --ink: #102a43;
+      --muted: #5d7086;
+      --soft: #7b8da3;
+      --line: #dce4ee;
+      --surface: #ffffff;
+      --canvas: #f5f7fb;
+      --navy: #102a43;
+      --navy-deep: #0a1f33;
+      --blue: #146cce;
+      --blue-dark: #0d57ad;
+      --blue-pale: #eaf3ff;
+      --mint: #14a38b;
+      --mint-pale: #e9faf6;
+      --amber: #ac6200;
+      --amber-pale: #fff7e8;
+      --danger: #b8432e;
+      --shadow: 0 16px 36px rgba(19, 43, 72, .08);
+      --shadow-soft: 0 6px 18px rgba(19, 43, 72, .07);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 88% 0%, rgba(50, 126, 219, .11), transparent 24rem),
+        var(--canvas);
+    }
+
+    button,
+    input,
+    textarea { font: inherit; }
+
+    button { cursor: pointer; }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(20, 108, 206, .34);
+      outline-offset: 3px;
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 264px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 28px 18px 22px;
+      color: #e8f2ff;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(88, 172, 255, .25), transparent 13rem),
+        linear-gradient(165deg, var(--navy) 0%, var(--navy-deep) 100%);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 10px 26px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .35);
+      border-radius: 10px;
+      background: linear-gradient(145deg, #2b91f4, #135ca8);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .2);
+    }
+
+    .brand-mark::before {
+      width: 13px;
+      height: 16px;
+      content: "";
+      border: 2px solid #fff;
+      border-top: 0;
+      border-radius: 2px 2px 6px 6px;
+    }
+
+    .brand-name { font-size: 1.14rem; font-weight: 760; letter-spacing: -.02em; }
+    .brand-subtitle { margin-top: 1px; color: #a9c4df; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
+
+    .workspace-label {
+      margin: 0 10px 9px;
+      color: #8eaac6;
+      font-size: .68rem;
+      font-weight: 760;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav { display: grid; gap: 4px; }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 12px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      color: #bed2e5;
+      font-size: .9rem;
+      font-weight: 630;
+      text-decoration: none;
+      transition: background .18s ease, border-color .18s ease, color .18s ease;
+    }
+
+    .sidebar-nav a:hover { color: #fff; background: rgba(255, 255, 255, .08); }
+    .sidebar-nav a[aria-current="page"] { color: #fff; border-color: rgba(126, 190, 255, .25); background: rgba(63, 149, 235, .2); }
+
+    .nav-icon {
+      display: grid;
+      width: 19px;
+      height: 19px;
+      place-items: center;
+      border: 1px solid currentColor;
+      border-radius: 5px;
+      font-size: .62rem;
+      line-height: 1;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 18px 10px 0;
+      border-top: 1px solid rgba(205, 228, 250, .15);
+    }
+
+    .environment-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #b9eee1;
+      font-size: .76rem;
+      font-weight: 700;
+    }
+
+    .environment-badge::before {
+      width: 7px;
+      height: 7px;
+      content: "";
+      border-radius: 50%;
+      background: #49d9bd;
+      box-shadow: 0 0 0 3px rgba(73, 217, 189, .14);
+    }
+
+    .sidebar-footer p { margin: 9px 0 0; color: #8eaac6; font-size: .75rem; line-height: 1.55; }
+
+    .content { min-width: 0; padding: 0 34px 42px; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      border-bottom: 1px solid rgba(205, 217, 230, .8);
+    }
+
+    .breadcrumb { color: var(--muted); font-size: .83rem; }
+    .breadcrumb strong { color: var(--ink); font-weight: 720; }
+
+    .topbar-meta { display: flex; align-items: center; gap: 10px; }
+
+    .secure-chip,
+    .synthetic-chip,
+    .planner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      font-size: .73rem;
+      font-weight: 720;
+      white-space: nowrap;
+    }
+
+    .secure-chip { padding: 7px 10px; border: 1px solid #cfe8e1; color: #08735f; background: #f0fbf8; }
+    .secure-chip::before { width: 7px; height: 7px; content: ""; border-radius: 50%; background: #14a38b; }
+
+    .avatar {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(145deg, #7896b6, #4f6e8c);
+      font-size: .73rem;
+      font-weight: 760;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      max-width: 1240px;
+      padding: 42px 0 26px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 10px;
+      color: var(--blue-dark);
+      font-size: .74rem;
+      font-weight: 780;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before { width: 22px; height: 2px; content: ""; border-radius: 2px; background: var(--blue); }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 10px; color: #102a43; font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -.045em; line-height: 1.12; }
+    .page-summary { max-width: 650px; margin-bottom: 0; color: var(--muted); font-size: .98rem; line-height: 1.65; }
+
+    .synthetic-chip { padding: 9px 12px; border: 1px solid #efd9a6; color: #8a5400; background: #fffaf0; }
+    .synthetic-chip::before { content: "◈"; color: #c27400; font-size: .92rem; }
+
+    #workflow-map { scroll-margin-top: 20px; }
+
+    .workflow-map {
+      max-width: 1240px;
+      margin: 0 auto 24px;
+      overflow: hidden;
+    }
+
+    .workflow-map-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px 28px 19px;
+      border-bottom: 1px solid #e6edf4;
+      background: linear-gradient(105deg, #fbfdff, #f5f9fe);
+    }
+
+    .workflow-map-header .eyebrow { margin-bottom: 8px; }
+    .workflow-map-header h2 { margin-bottom: 6px; color: var(--ink); font-size: 1.08rem; letter-spacing: -.018em; }
+    .workflow-map-header p:last-child { max-width: 690px; margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.55; }
+
+    .workflow-map-badge {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid #cfe2f5;
+      border-radius: 999px;
+      color: #256197;
+      background: #f4f9ff;
+      font-size: .72rem;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .workflow-map-badge::before { width: 7px; height: 7px; content: ""; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 3px rgba(20, 108, 206, .12); }
+
+    .workflow-map-body { padding: 22px 28px 24px; }
+
+    .workflow-map-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 32px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .workflow-map-node {
+      position: relative;
+      display: flex;
+      flex: 1 1 125px;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 142px;
+      padding: 15px;
+      border: 1px solid #d8e5f0;
+      border-radius: 11px;
+      background: #fbfdff;
+    }
+
+    .workflow-map-node:not(:last-child)::after {
+      position: absolute;
+      top: 50%;
+      right: -26px;
+      z-index: 1;
+      color: #4b89c2;
+      content: "→";
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1;
+      transform: translateY(-50%);
+    }
+
+    .workflow-map-node[data-stage="orchestrator"] { border-color: #bcd8f2; background: #f5faff; }
+    .workflow-map-node[data-stage="llm"] { border-color: #bfe6db; background: #f4fcfa; }
+    .workflow-map-node[data-stage="mcp"] { border-color: #cddff0; background: #f7fbff; }
+    .workflow-map-node[data-stage="result"] { border-color: #d5e7df; background: #f8fcfa; }
+
+    /* A stage is ticked only when the returned trace shows it actually ran, so
+       the map reflects the request just made rather than the intended design. */
+    .stage-check {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 15px; height: 15px; margin-left: 7px; border-radius: 50%;
+      border: 1px solid #cfdbe6; background: #fff;
+      color: transparent; font-size: .62rem; font-weight: 900; line-height: 1;
+      vertical-align: -2px; transition: background .18s, border-color .18s, color .18s;
+    }
+    .stage-check::before { content: "\2713"; }
+    .workflow-map-node[data-called="yes"] .stage-check {
+      border-color: #1f9254; background: #1f9254; color: #fff;
+    }
+    .workflow-map-node[data-called="no"] { opacity: .55; }
+    .workflow-map-node[data-called="yes"] { box-shadow: 0 0 0 1px rgba(31, 146, 84, .35); }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    /* Scenario picker */
+    .scenario-toolbar {
+      display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+      margin-bottom: 14px;
+    }
+    .scenario-toolbar label { display: block; margin-bottom: 5px; color: #5e809e; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .scenario-toolbar select {
+      padding: 9px 11px; border: 1px solid #cfdbe6; border-radius: 8px;
+      background: #fff; color: var(--ink); font: inherit; font-size: .82rem; min-width: 260px;
+    }
+    .scenario-table-wrap { overflow-x: auto; border: 1px solid #dbe6f0; border-radius: 10px; }
+    .scenario-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    .scenario-table th {
+      position: sticky; top: 0; padding: 9px 12px; border-bottom: 1px solid #dbe6f0;
+      background: #f5f9fd; color: #5e809e; font-size: .66rem; font-weight: 800;
+      letter-spacing: .08em; text-align: left; text-transform: uppercase;
+    }
+    .scenario-table td { padding: 0; border-bottom: 1px solid #eef3f8; vertical-align: top; }
+    .scenario-table tr:last-child td { border-bottom: 0; }
+    .scenario-row {
+      display: grid; grid-template-columns: 108px 1fr 96px; gap: 12px; align-items: center;
+      width: 100%; padding: 10px 12px; border: 0; background: none;
+      color: var(--ink); font: inherit; font-size: .8rem; text-align: left; cursor: pointer;
+    }
+    .scenario-row:hover, .scenario-row:focus-visible { background: #f2f8ff; outline: none; }
+    .scenario-kind {
+      display: inline-block; padding: 2px 8px; border-radius: 999px;
+      background: #eef4fb; color: #37648e; font-size: .66rem; font-weight: 700; white-space: nowrap;
+    }
+    .scenario-row small { color: var(--muted); font-size: .7rem; }
+
+    /* The recorded walkthrough runs three specific scenarios. Pinning and
+       colouring them keeps the presenter from hunting the catalogue on camera. */
+    .scenario-row[data-demo] { background: #f6fcf9; }
+    .scenario-row[data-demo]:hover, .scenario-row[data-demo]:focus-visible { background: #ecf9f3; }
+    .scenario-row[data-demo] .scenario-kind { color: #0a6b57; background: #dff5ee; }
+    .scenario-row[data-demo] span:not(.scenario-kind) { font-weight: 640; }
+    .scenario-group td { padding: 7px 12px 5px; background: #fbfdff; color: #5e809e; font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+
+    /* Call counters. These are magnitudes with no series identity, so they are
+       stat tiles rather than a chart, and the values wear ink tokens — a colour
+       here would imply an encoding that does not exist. */
+    .usage-tiles {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px; margin-bottom: 18px;
+    }
+    .usage-tile { padding: 14px 15px; border: 1px solid #dbe6f0; border-radius: 11px; background: #fbfdff; }
+    .usage-label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .74rem; line-height: 1.35; }
+    .usage-value { display: block; color: var(--ink); font-size: 1.62rem; font-weight: 720; font-variant-numeric: tabular-nums; letter-spacing: -.02em; line-height: 1.1; }
+    .usage-sub { display: block; margin-top: 5px; color: var(--soft); font-size: .71rem; line-height: 1.4; }
+    .usage-refresh {
+      flex: 0 0 auto; min-height: 34px; padding: 0 13px; border: 1px solid #cfdbe6;
+      border-radius: 8px; color: #2f587e; background: #fff; font-size: .78rem; font-weight: 700;
+      transition: border-color .18s ease, background .18s ease;
+    }
+    .usage-refresh:hover { border-color: #94bee9; background: var(--blue-pale); }
+    .usage-actions { display: flex; flex: 0 0 auto; gap: 8px; }
+    .usage-window {
+      display: inline-flex; align-items: center; gap: 7px; padding: 3px 9px; margin-bottom: 10px;
+      border-radius: 999px; color: #0a6b57; background: #dff5ee; font-size: .7rem; font-weight: 760;
+    }
+    .usage-window:empty { display: none; }
+    .usage-note { margin: 14px 0 0; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    .usage-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+    .usage-table th {
+      padding: 9px 12px; border-bottom: 1px solid #dbe6f0; background: #f5f9fd; color: #5e809e;
+      font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-align: left; text-transform: uppercase;
+    }
+    .usage-table td { padding: 9px 12px; border-bottom: 1px solid #eef3f8; }
+    .usage-table tr:last-child td { border-bottom: 0; }
+    .usage-table td:last-child { width: 1%; text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
+    .usage-table code { color: #155a9f; font: 500 .77rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .usage-table .usage-diagnostic td:first-child { color: var(--muted); }
+
+    /* Discovered MCP tools. The schemas served at GET /tools, rendered so the
+       boundary is legible without reading JSON. */
+    .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
+    .tool-card { padding: 15px; border: 1px solid #dbe6f0; border-radius: 11px; background: #fbfdff; }
+    .tool-card[data-callable="no"] { border-style: dashed; background: #fafbfc; }
+    .tool-card-name { display: block; margin-bottom: 7px; color: #155a9f; font: 700 .84rem/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; overflow-wrap: anywhere; }
+    .tool-badge {
+      display: inline-block; margin-bottom: 9px; padding: 2px 8px; border-radius: 999px;
+      font-size: .65rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+      color: #0a6b57; background: #dff5ee;
+    }
+    .tool-card[data-callable="no"] .tool-badge { color: #8a5400; background: #fff2d9; }
+    .tool-card p { margin: 0 0 10px; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+    .tool-params { display: grid; gap: 5px; padding: 0; margin: 0; list-style: none; }
+    .tool-params li { color: #4b627a; font-size: .74rem; line-height: 1.45; }
+    .tool-params code { color: #27455f; font: 600 .74rem/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .tool-params .tool-required { color: #8a5400; font-weight: 700; }
+    .tool-params-label { display: block; margin-bottom: 6px; color: #5e809e; font-size: .64rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+
+    .workflow-map-step { margin-bottom: 9px; color: #5e809e; font-size: .66rem; font-weight: 800; letter-spacing: .085em; text-transform: uppercase; }
+    .workflow-map-node strong { display: block; margin-bottom: 6px; color: #27455f; font-size: .82rem; line-height: 1.25; }
+    .workflow-map-node span:last-child { color: var(--muted); font-size: .73rem; line-height: 1.45; }
+
+    .workflow-map-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 13px 15px;
+      margin-top: 18px;
+      border: 1px solid #d8e8e3;
+      border-radius: 9px;
+      color: #416274;
+      background: #f4fbf9;
+      font-size: .77rem;
+      line-height: 1.5;
+    }
+
+    .workflow-map-note::before { display: grid; width: 22px; height: 22px; place-items: center; content: "↺"; border-radius: 50%; color: #087360; background: #dff5ee; font-size: 1rem; font-weight: 800; }
+    .workflow-map-note strong { color: #176c5b; }
+    .workflow-map-note p { margin: 2px 0 0; }
+
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 24px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border: 1px solid rgba(210, 222, 234, .94);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .assistant-card { overflow: hidden; }
+
+    .card-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 26px 28px 20px;
+      border-bottom: 1px solid #e6edf4;
+    }
+
+    .card-heading h2 { margin-bottom: 5px; color: var(--ink); font-size: 1.1rem; letter-spacing: -.018em; }
+    .card-heading p { margin: 0; color: var(--muted); font-size: .86rem; line-height: 1.5; }
+
+    .mcp-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 9px;
+      border-radius: 7px;
+      color: #4b627a;
+      background: #f4f7fa;
+      font-size: .72rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .mcp-indicator::before { width: 7px; height: 7px; content: ""; border-radius: 50%; background: #4e8ed5; }
+
+    .notice {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      padding: 15px 17px;
+      margin: 20px 28px 0;
+      border: 1px solid #f0d9a9;
+      border-radius: 10px;
+      color: #745322;
+      background: var(--amber-pale);
+      font-size: .82rem;
+      line-height: 1.52;
+    }
+
+    .notice-icon {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 50%;
+      color: #955700;
+      background: #ffe9ba;
+      font-size: .88rem;
+      font-weight: 800;
+    }
+
+    .notice strong { display: block; margin-bottom: 2px; color: #714300; }
+
+    .assistant-form { padding: 24px 28px 28px; }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      color: #263e56;
+      font-size: .85rem;
+      font-weight: 760;
+    }
+
+    .field-label span { color: var(--soft); font-size: .73rem; font-weight: 600; }
+
+    textarea,
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid #bdcad8;
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    textarea { min-height: 142px; padding: 15px 16px; resize: vertical; line-height: 1.55; }
+    input[type="text"] { min-height: 47px; padding: 11px 13px; font-weight: 650; letter-spacing: .025em; }
+    textarea::placeholder, input::placeholder { color: #91a0b1; }
+    textarea:hover, input[type="text"]:hover { border-color: #98adbf; }
+    textarea:focus, input[type="text"]:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(20, 108, 206, .12); outline: none; }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: minmax(190px, .38fr) minmax(0, 1fr);
+      gap: 20px;
+      padding-top: 20px;
+    }
+
+    .help-text { margin: 8px 0 0; color: var(--muted); font-size: .76rem; line-height: 1.45; }
+
+    .quick-prompts { margin-top: 20px; }
+    .quick-prompts-header { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; }
+    .quick-prompts-header strong { color: #364e66; font-size: .78rem; }
+    .quick-prompts-header span { color: var(--soft); font-size: .75rem; }
+    .prompt-options { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .prompt-option {
+      padding: 8px 10px;
+      border: 1px solid #d4e0ec;
+      border-radius: 8px;
+      color: #2f587e;
+      background: #f9fbfd;
+      font-size: .76rem;
+      font-weight: 680;
+      transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
+    }
+
+    .prompt-option:hover { border-color: #94bee9; color: var(--blue-dark); background: var(--blue-pale); transform: translateY(-1px); }
+
+    .confirmation {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 11px;
+      padding: 14px;
+      margin: 22px 0 0;
+      border: 1px solid #d6e0ea;
+      border-radius: 10px;
+      color: #435a70;
+      background: #fafcfe;
+      cursor: pointer;
+      font-size: .82rem;
+      line-height: 1.48;
+    }
+
+    .confirmation:hover { border-color: #b8cbdd; }
+    .confirmation input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: var(--blue); }
+    .confirmation strong { color: #263e56; }
+
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 20px;
+    }
+
+    #status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 20px;
+      margin: 0;
+      color: var(--muted);
+      font-size: .79rem;
+      line-height: 1.35;
+    }
+
+    #status::before { width: 7px; height: 7px; content: ""; border-radius: 50%; background: #8aa0b4; }
+    #status[data-state="loading"]::before { background: var(--blue); box-shadow: 0 0 0 4px rgba(20, 108, 206, .12); animation: pulse 1.2s ease-in-out infinite; }
+    #status[data-state="success"]::before { background: var(--mint); }
+    #status[data-state="error"]::before { background: var(--danger); }
+
+    @keyframes pulse { 50% { opacity: .45; transform: scale(.72); } }
+
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--blue-dark);
+      border-radius: 9px;
+      color: #fff;
+      background: linear-gradient(180deg, #1f79da, #1264bd);
+      box-shadow: 0 8px 16px rgba(20, 94, 181, .22);
+      font-size: .87rem;
+      font-weight: 760;
+      transition: box-shadow .18s ease, transform .18s ease, background .18s ease;
+    }
+
+    .primary-button:hover:not(:disabled) { background: linear-gradient(180deg, #2381e8, #0f59ae); box-shadow: 0 10px 20px rgba(20, 94, 181, .28); transform: translateY(-1px); }
+    .primary-button:disabled { cursor: wait; opacity: .75; }
+    .button-arrow { font-size: 1rem; line-height: 1; transition: transform .18s ease; }
+    .primary-button:hover:not(:disabled) .button-arrow { transform: translateX(2px); }
+
+    .support-column { display: grid; align-content: start; gap: 16px; }
+    .support-card { padding: 20px; box-shadow: var(--shadow-soft); }
+    .support-card h2 { margin-bottom: 12px; color: var(--ink); font-size: .95rem; letter-spacing: -.012em; }
+    .support-card > p { color: var(--muted); font-size: .79rem; line-height: 1.55; }
+
+    .workflow { display: grid; gap: 15px; margin: 0; padding: 0; list-style: none; }
+    .workflow li { position: relative; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
+    .workflow li:not(:last-child)::after { position: absolute; top: 31px; bottom: -13px; left: 13px; width: 1px; content: ""; background: #d7e4f0; }
+    .workflow-number { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; color: #1a67af; background: #eaf3ff; font-size: .67rem; font-weight: 800; }
+    .workflow strong { display: block; margin-bottom: 2px; color: #314a63; font-size: .8rem; }
+    .workflow span { display: block; color: var(--muted); font-size: .74rem; line-height: 1.4; }
+
+    .record-list { display: grid; gap: 8px; }
+    .record-button {
+      display: grid;
+      grid-template-columns: 38px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #dce6f0;
+      border-radius: 10px;
+      color: inherit;
+      background: #fff;
+      text-align: left;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+
+    .record-button:hover { border-color: #9cc4ec; box-shadow: 0 4px 12px rgba(18, 72, 127, .08); transform: translateY(-1px); }
+    .record-id { display: grid; width: 38px; height: 32px; place-items: center; border-radius: 7px; color: #2469a7; background: #eaf3ff; font-size: .68rem; font-weight: 800; }
+    .record-button strong { display: block; color: #344f68; font-size: .77rem; }
+    .record-button small { display: block; margin-top: 2px; color: var(--soft); font-size: .69rem; }
+    .record-arrow { color: #6f8eaa; font-size: 1rem; }
+
+    .help-card { border-color: #dce9e6; background: linear-gradient(145deg, #ffffff, #f3fbf9); }
+    .help-card p { margin-bottom: 0; }
+    .help-card strong { color: #167561; }
+
+    .workflow-map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 3px;
+      color: #216ba9;
+      font-size: .77rem;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .workflow-map-link:hover { color: var(--blue-dark); text-decoration: underline; }
+
+    #result-panel {
+      max-width: 1240px;
+      padding-top: 24px;
+      margin: 0 auto;
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .result-header h2 { margin: 0; color: var(--ink); font-size: 1.18rem; letter-spacing: -.018em; }
+    .result-header p { margin: 4px 0 0; color: var(--muted); font-size: .8rem; }
+
+    .planner-badge { min-height: 30px; padding: 7px 10px; border: 1px solid #d6e1ec; color: #51687e; background: #fff; }
+    .planner-badge:empty { display: none; }
+    .planner-badge[data-mode="llm"] { border-color: #bde5da; color: #05715d; background: var(--mint-pale); }
+    .planner-badge[data-mode="deterministic"] { border-color: #d3e3f3; color: #32608a; background: #f2f7fd; }
+    .planner-badge[data-mode="deterministic-fallback"] { border-color: #f0d8a4; color: #8c5600; background: #fff8e9; }
+
+    .result-layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; }
+    .result-section { padding: 23px; border: 1px solid #dce6ef; border-radius: var(--radius-md); background: #fff; box-shadow: var(--shadow-soft); }
+    .result-section h3 { margin-bottom: 12px; color: #263f58; font-size: .93rem; }
+
+    .answer-section { min-height: 206px; }
+    #answer { margin: 0; color: #213b55; white-space: pre-wrap; font-size: .94rem; line-height: 1.7; }
+
+    .citation-list,
+    .trace-list { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
+    .citation-list li { padding: 13px; border: 1px solid #dbe6f0; border-left: 3px solid #67a6e1; border-radius: 8px; background: #fbfdff; }
+    .citation-source { display: block; margin-bottom: 5px; color: #285d91; font-size: .78rem; }
+    .citation-snippet { color: #536a80; font-size: .78rem; line-height: 1.48; }
+
+    .evidence-section { grid-column: 1 / -1; }
+    .evidence-intro { margin: -4px 0 16px; color: var(--muted); font-size: .79rem; line-height: 1.48; }
+    .trace-list { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); counter-reset: trace; }
+    .trace-list > li { position: relative; padding: 17px; border: 1px solid #dce6ef; border-radius: 10px; background: #fbfdff; counter-increment: trace; }
+    .trace-list > li::before { position: absolute; top: 16px; right: 16px; display: grid; width: 23px; height: 23px; place-items: center; content: counter(trace); border-radius: 50%; color: #5a7c9e; background: #eaf2f9; font-size: .68rem; font-weight: 800; }
+    .tool-name { display: block; padding-right: 34px; color: #155a9f; font-size: .84rem; overflow-wrap: anywhere; }
+    .trace-label { display: block; margin: 14px 0 6px; color: #657b91; font-size: .68rem; font-weight: 760; letter-spacing: .07em; text-transform: uppercase; }
+
+    pre {
+      max-height: 210px;
+      padding: 11px;
+      margin: 0;
+      overflow: auto;
+      border: 1px solid #e2e9f0;
+      border-radius: 7px;
+      color: #38536d;
+      background: #f4f7fa;
+      font: 500 .73rem/1.55 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .raw-response {
+      grid-column: 1 / -1;
+      padding: 0 4px;
+    }
+
+    .raw-response summary { padding: 12px 0; color: #526d87; cursor: pointer; font-size: .79rem; font-weight: 720; }
+    .raw-response[open] summary { color: #155a9f; }
+    .raw-response pre { margin-bottom: 8px; }
+
+    .empty-item { padding: 12px !important; border-style: dashed !important; border-left-width: 1px !important; color: var(--muted); font-size: .79rem; }
+
+    @media (max-width: 1040px) {
+      .content { padding: 0 24px 34px; }
+      .workspace-grid { grid-template-columns: minmax(0, 1fr) 268px; }
+      .result-layout { grid-template-columns: minmax(0, 1fr) 285px; }
+    }
+
+    @media (max-width: 1200px) {
+      .workflow-map-flow { display: grid; grid-template-columns: 1fr; gap: 25px; }
+      .workflow-map-node { min-height: auto; }
+      .workflow-map-node:not(:last-child)::after { top: auto; right: 50%; bottom: -25px; transform: translateX(50%) rotate(90deg); }
+    }
+
+    @media (max-width: 820px) {
+      .app-shell { display: block; }
+      .sidebar { position: static; min-height: auto; padding: 16px 20px; }
+      .brand { padding: 0; }
+      .workspace-label, .sidebar-nav, .sidebar-footer { display: none; }
+      .content { padding: 0 18px 28px; }
+      .topbar { min-height: 60px; }
+      .breadcrumb { font-size: .77rem; }
+      .avatar { display: none; }
+      .page-header { padding: 28px 0 20px; }
+      .workspace-grid, .result-layout { grid-template-columns: 1fr; }
+      .support-column { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .help-card { grid-column: 1 / -1; }
+      .evidence-section { grid-column: auto; }
+    }
+
+    @media (max-width: 580px) {
+      .topbar-meta .secure-chip { display: none; }
+      .page-header { display: block; }
+      .synthetic-chip { display: inline-flex; margin-top: 16px; }
+      .card-heading, .assistant-form { padding-right: 18px; padding-left: 18px; }
+      .notice { margin-right: 18px; margin-left: 18px; }
+      .card-heading { display: block; }
+      .mcp-indicator { margin-top: 12px; }
+      .input-grid, .support-column { grid-template-columns: 1fr; }
+      .form-footer { align-items: stretch; flex-direction: column-reverse; }
+      .primary-button { width: 100%; }
+      .result-header { align-items: flex-start; flex-direction: column; }
+      .result-section { padding: 18px; }
+      .trace-list { grid-template-columns: 1fr; }
+      .workflow-map { margin-bottom: 20px; }
+      .workflow-map-header { display: block; padding: 20px 18px 16px; }
+      .workflow-map-badge { margin-top: 12px; }
+      .workflow-map-body { padding: 17px 18px 19px; }
+      .workflow-map-note { margin-top: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="ClearHR workspace navigation">
+      <a class="brand" href="#ask" aria-label="ClearHR home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>
+          <span class="brand-name">ClearHR</span>
+          <span class="brand-subtitle">Policy workspace</span>
+        </span>
+      </a>
+
+      <p class="workspace-label">Demo workspace</p>
+      <nav class="sidebar-nav" aria-label="Page sections">
+        <a href="#ask" aria-current="page"><span class="nav-icon" aria-hidden="true">↗</span>Ask ClearHR</a>
+        <a href="#workflow-map"><span class="nav-icon" aria-hidden="true">⇄</span>Workflow map</a>
+        <a href="#evidence"><span class="nav-icon" aria-hidden="true">≡</span>Evidence trace</a>
+        <a href="#mcp-tools"><span class="nav-icon" aria-hidden="true">⚙</span>MCP tools</a>
+        <a href="#usage"><span class="nav-icon" aria-hidden="true">#</span>Call counters</a>
+        <a href="#demo-records"><span class="nav-icon" aria-hidden="true">◇</span>Demo records</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="environment-badge">Synthetic environment</span>
+        <p>Built for a safe agentic-workflow demonstration. No real HR records are stored or submitted.</p>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div class="breadcrumb"><strong>Employee experience</strong> <span aria-hidden="true">/</span> Policy assistant</div>
+        <div class="topbar-meta">
+          <span class="secure-chip">Safety controls active</span>
+          <span class="avatar" aria-label="Demo workspace">DH</span>
+        </div>
+      </header>
+
+      <section class="page-header" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">HR operations</p>
+          <h1 id="page-title">Clear, evidence-backed HR guidance.</h1>
+          <p class="page-summary">Ask a policy question, review the retrieved evidence, and see the exact MCP tools used to prepare each answer.</p>
+        </div>
+        <span class="synthetic-chip">Synthetic data only</span>
+      </section>
+
+
+      <div class="workspace-grid">
+        <section class="assistant-card card" id="ask" aria-labelledby="assistant-title">
+          <header class="card-heading">
+            <div>
+              <h2 id="assistant-title">Ask the policy assistant</h2>
+              <p>Use a sample question and synthetic employee ID to explore the guided workflow.</p>
+            </div>
+            <span class="mcp-indicator">MCP evidence workflow</span>
+          </header>
+
+          <div class="notice" role="note" aria-label="Important synthetic-data notice">
+            <span class="notice-icon" aria-hidden="true">!</span>
+            <div>
+              <strong>Synthetic demo only — do not enter real personal information.</strong>
+              This app uses mock employee records and sample policies. Do not enter real names, employee IDs, contact details, payroll data, health information, performance details, or workplace reports.
+            </div>
+          </div>
+
+          <form id="assistant-form" class="assistant-form">
+            <label class="field-label" for="message">HR policy question <span>Required</span></label>
+            <textarea id="message" rows="5" autocomplete="off" required minlength="3" aria-describedby="message-help">Can I take three days of PTO next week?</textarea>
+            <p id="message-help" class="help-text">Describe the policy question in plain language. ClearHR retrieves only the evidence needed for this mock request.</p>
+
+            <div class="input-grid">
+              <div>
+                <label class="field-label" for="employee">Synthetic employee ID <span>Optional</span></label>
+                <input id="employee" type="text" value="E1001" inputmode="text" autocomplete="off" pattern="E[0-9]{4}" aria-describedby="employee-hint">
+                <p id="employee-hint" class="help-text">Use only a sample ID such as E1001.</p>
+              </div>
+
+              <div class="quick-prompts" aria-labelledby="quick-prompts-label">
+                <div class="quick-prompts-header">
+                  <strong id="quick-prompts-label">Quick-start scenarios</strong>
+                  <span>Loads a safe sample</span>
+                </div>
+                <div class="scenario-toolbar">
+                  <div>
+                    <label for="employee-select">Synthetic employee</label>
+                    <select id="employee-select">
+                      <option value="">No employee ID (policy-only question)</option>
+                      <option value="E1001" selected>E1001 · Avery Chen — full-time, Product Analyst, New York</option>
+                      <option value="E1002">E1002 · Jordan Patel — part-time, Support Specialist, Remote (Illinois)</option>
+                      <option value="E1003">E1003 · Sam Rivera — full-time, Software Engineer, San Francisco</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="scenario-table-wrap">
+                  <table class="scenario-table">
+                    <caption class="visually-hidden">Click a scenario to load its question. Scenarios that need a specific record set the employee for you.</caption>
+                    <thead>
+                      <tr><th scope="col">Category</th><th scope="col">Question</th><th scope="col">Employee</th></tr>
+                    </thead>
+                    <tbody id="scenario-rows"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <label class="confirmation" for="confirm-mock-action">
+              <input id="confirm-mock-action" type="checkbox">
+              <span>
+                I explicitly authorize ClearHR to prepare a <strong>mock</strong> HR case draft if my synthetic demo request requires it. No real case is submitted and leaving this unchecked sends no mock action.
+              </span>
+            </label>
+
+            <div class="form-footer">
+              <p id="status" aria-live="polite" data-state="idle">Ready for a synthetic demo request.</p>
+              <button id="ask-button" class="primary-button" type="submit">
+                <span id="ask-button-label">Ask ClearHR</span><span class="button-arrow" aria-hidden="true">→</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="support-column" aria-label="Workflow guidance">
+          <section class="support-card card">
+            <h2>How the workflow works</h2>
+            <ol class="workflow">
+              <li><span class="workflow-number">01</span><span><strong>Frame a question</strong><span>Start with a mock HR policy need.</span></span></li>
+              <li><span class="workflow-number">02</span><span><strong>Retrieve evidence</strong><span>The agent calls the right MCP tools and records the outputs.</span></span></li>
+              <li><span class="workflow-number">03</span><span><strong>Review the answer</strong><span>Inspect citations and the trace before relying on it.</span></span></li>
+            </ol>
+            <a class="workflow-map-link" href="#workflow-map">Open the full workflow map <span aria-hidden="true">→</span></a>
+          </section>
+
+          <section class="support-card card" id="demo-records" aria-labelledby="records-title">
+            <h2 id="records-title">Synthetic demo records</h2>
+            <div class="record-list">
+              <button class="record-button" type="button" data-record="E1001"><span class="record-id">E1001</span><span><strong>PTO request</strong><small>New York · 40 available hours</small></span><span class="record-arrow" aria-hidden="true">→</span></button>
+              <button class="record-button" type="button" data-record="E1002"><span class="record-id">E1002</span><span><strong>Benefits check</strong><small>Remote · part-time status</small></span><span class="record-arrow" aria-hidden="true">→</span></button>
+              <button class="record-button" type="button" data-record="E1003"><span class="record-id">E1003</span><span><strong>International remote work</strong><small>California · San Francisco</small></span><span class="record-arrow" aria-hidden="true">→</span></button>
+            </div>
+          </section>
+
+          <section class="support-card help-card card">
+            <h2>Designed for review</h2>
+            <p><strong>Every answer includes its evidence trail.</strong> The returned citations and bounded tool-result previews make the agent’s work visible for your presentation.</p>
+          </section>
+        </aside>
+      </div>
+
+      <section id="result-panel" hidden tabindex="-1" aria-labelledby="result-title">
+        <header class="result-header">
+          <div>
+            <h2 id="result-title">Response workspace</h2>
+            <p>Review the final answer, supporting citations, and agent activity.</p>
+          </div>
+          <span id="planner" class="planner-badge"></span>
+        </header>
+
+        <div class="result-layout">
+          <section class="result-section answer-section">
+            <h3>Final answer or action</h3>
+            <p id="answer"></p>
+          </section>
+
+          <section class="result-section citation-section">
+            <h3>Retrieved citations</h3>
+            <ul id="citations" class="citation-list"></ul>
+          </section>
+
+          <section class="result-section evidence-section" id="evidence">
+            <h3>MCP tool calls</h3>
+            <p class="evidence-intro">Each entry shows the tool name, exact arguments sent, and a safely bounded returned-result preview.</p>
+            <ol id="trace" class="trace-list"></ol>
+          </section>
+
+          <details class="raw-response">
+            <summary>Raw response JSON</summary>
+            <pre id="response"></pre>
+          </details>
+        </div>
+      </section>
+      <section class="workflow-map card" id="workflow-map" aria-labelledby="workflow-map-title">
+        <header class="workflow-map-header">
+          <div>
+            <p class="eyebrow">Architecture walkthrough</p>
+            <h2 id="workflow-map-title">How one request moves through ClearHR</h2>
+            <p>Use this map while presenting: it shows where the agent makes decisions, where MCP tools run, and how returned evidence becomes a cited answer.</p>
+          </div>
+          <span class="workflow-map-badge" id="workflow-map-badge">Normal LLM-enabled path</span>
+        </header>
+
+        <div class="workflow-map-body">
+          <ol class="workflow-map-flow" aria-label="Normal LLM-enabled ClearHR request flow">
+            <li class="workflow-map-node" data-stage="request" data-node="request">
+              <span class="workflow-map-step">01 · Request<span class="stage-check" data-node="request" aria-hidden="true"></span></span>
+              <strong>Browser sends a question</strong>
+              <span><code>POST /chat</code> carries the synthetic question, employee ID, and mock-action confirmation.</span>
+            </li>
+            <li class="workflow-map-node" data-stage="orchestrator" data-node="guardrails">
+              <span class="workflow-map-step">02 · Guardrails<span class="stage-check" data-node="guardrails" aria-hidden="true"></span></span>
+              <strong>Agent orchestrator</strong>
+              <span>Applies identity and safety checks, then selects the LLM or the deterministic fallback.</span>
+            </li>
+            <li class="workflow-map-node" data-stage="llm" data-node="plan">
+              <span class="workflow-map-step">03 · Plan<span class="stage-check" data-node="plan" aria-hidden="true"></span></span>
+              <strong>OpenAI LLM planner</strong>
+              <span>Receives discovered MCP tool schemas and decides which evidence is needed next.</span>
+            </li>
+            <li class="workflow-map-node" data-stage="mcp" data-node="retrieve">
+              <span class="workflow-map-step">04 · Retrieve<span class="stage-check" data-node="retrieve" aria-hidden="true"></span></span>
+              <strong>MCP client → FastMCP server</strong>
+              <span>Calls typed tools over stdio / JSON-RPC to retrieve RAG policy evidence or mock records.</span>
+            </li>
+            <li class="workflow-map-node" data-stage="llm" data-node="use-results">
+              <span class="workflow-map-step">05 · Use results<span class="stage-check" data-node="use-results" aria-hidden="true"></span></span>
+              <strong>Structured results return to the LLM</strong>
+              <span>The planner can use the evidence or request another bounded MCP tool call.</span>
+            </li>
+            <li class="workflow-map-node" data-stage="result" data-node="explain">
+              <span class="workflow-map-step">06 · Explain<span class="stage-check" data-node="explain" aria-hidden="true"></span></span>
+              <strong>Reviewable answer in the browser</strong>
+              <span>ClearHR returns the final answer, citations, and exact MCP tool trace for review.</span>
+            </li>
+          </ol>
+
+          <aside class="workflow-map-note" aria-label="Workflow safety note">
+            <div>
+              <strong>Safe alternate paths.</strong>
+              <p>Sensitive workplace-conduct reports enter the deterministic safety gate before any LLM call. If the provider is unavailable, the deterministic planner uses the same MCP tool boundary and still returns visible evidence.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="workflow-map card" id="mcp-tools" aria-labelledby="mcp-tools-title">
+        <header class="workflow-map-header">
+          <div>
+            <p class="eyebrow">Live schemas</p>
+            <h2 id="mcp-tools-title">Discovered MCP tools</h2>
+            <p>Served by <code>GET /tools</code> — discovered from the running MCP server over stdio, never hard-coded here. The planner is offered only the tools with a classified capability.</p>
+          </div>
+          <span class="workflow-map-badge" id="mcp-tools-badge">Discovering…</span>
+        </header>
+        <div class="workflow-map-body">
+          <div class="tool-grid" id="tool-grid"></div>
+        </div>
+      </section>
+
+      <section class="workflow-map card" id="usage" aria-labelledby="usage-title">
+        <header class="workflow-map-header">
+          <div>
+            <p class="eyebrow">Operational counters</p>
+            <h2 id="usage-title">LLM and MCP call counts</h2>
+            <p>How many requests this instance sent to the model provider, and how many calls crossed the MCP boundary. Counted at the dispatch site, so the figures are what actually left the process.</p>
+          </div>
+          <div class="usage-actions">
+            <button class="usage-refresh" id="usage-mark" type="button">Start new window</button>
+            <button class="usage-refresh" id="usage-refresh" type="button">Refresh</button>
+          </div>
+        </header>
+
+        <div class="workflow-map-body">
+          <span class="usage-window" id="usage-window"></span>
+          <div class="usage-tiles" id="usage-tiles"></div>
+
+          <div class="scenario-table-wrap">
+            <table class="usage-table">
+              <caption class="visually-hidden">MCP tool calls dispatched by this instance, by tool name.</caption>
+              <thead>
+                <tr><th scope="col">MCP tool</th><th scope="col">Calls</th></tr>
+              </thead>
+              <tbody id="usage-rows"></tbody>
+            </table>
+          </div>
+
+          <p class="usage-note" id="usage-note" aria-live="polite"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const messageInput = document.getElementById("message");
+    const employeeInput = document.getElementById("employee");
+    const confirmationInput = document.getElementById("confirm-mock-action");
+    const askButton = document.getElementById("ask-button");
+    const askButtonLabel = document.getElementById("ask-button-label");
+    const assistantForm = document.getElementById("assistant-form");
+    const status = document.getElementById("status");
+    const resultPanel = document.getElementById("result-panel");
+    const answer = document.getElementById("answer");
+    const planner = document.getElementById("planner");
+    const citations = document.getElementById("citations");
+    const trace = document.getElementById("trace");
+    const response = document.getElementById("response");
+    const employeeSelect = document.getElementById("employee-select");
+    const scenarioRows = document.getElementById("scenario-rows");
+    const workflowNodes = document.querySelectorAll(".workflow-map-node[data-node]");
+    const workflowBadge = document.getElementById("workflow-map-badge");
+    const usageTiles = document.getElementById("usage-tiles");
+    const usageRows = document.getElementById("usage-rows");
+    const usageNote = document.getElementById("usage-note");
+    const usageRefresh = document.getElementById("usage-refresh");
+    const usageMark = document.getElementById("usage-mark");
+    const usageWindow = document.getElementById("usage-window");
+    const toolGrid = document.getElementById("tool-grid");
+    const toolsBadge = document.getElementById("mcp-tools-badge");
+
+    // Drawn from evaluation/evaluation_set.json so the demo exercises the same
+    // cases the reported metrics are computed from, rather than a separate set.
+    // The one exception is the `demo: 2` scenario: the recorded walkthrough needs
+    // a multi-document question that also carries an employee record, so it adds
+    // a location to eval case q09. It is a presentation variant, not a measured
+    // case, and no reported metric is computed from it.
+    const scenarios = [
+      { kind: "Policy", employee: "", message: "How much notice is required before taking planned PTO?" },
+      { kind: "Policy", employee: "", message: "Are itemized receipts required for a $30 business lunch?" },
+      { kind: "Policy", employee: "", message: "Can I expense a personal laptop?" },
+      { kind: "Policy", employee: "", message: "How many floating holidays do employees get each year?" },
+      { kind: "Multi-doc", employee: "", message: "I want to work from Portugal for six weeks. What approvals and security requirements apply?" },
+      { kind: "Multi-doc", employee: "E1003", demo: 2, message: "I am based in California and want to work from Portugal for six weeks. What approvals and security requirements apply?" },
+      { kind: "Multi-doc", employee: "", message: "I am attending a conference abroad. What do I need to arrange for travel, expenses, and my learning budget?" },
+      { kind: "Multi-doc", employee: "", message: "My laptop was stolen from a cafe while I was working remotely. What do I do?" },
+      { kind: "Workflow", employee: "E1001", demo: 1, message: "Can I take three days of PTO next week?" },
+      { kind: "Workflow", employee: "E1002", message: "Do I have enough PTO left to take two weeks off?" },
+      { kind: "Workflow", employee: "E1002", message: "Am I eligible for the company medical plan?" },
+      { kind: "Workflow", employee: "E1003", message: "Which benefits plans am I currently enrolled in?" },
+      { kind: "Ambiguous", employee: "", message: "How much PTO do I have left?" },
+      { kind: "Ambiguous", employee: "", message: "Am I eligible?" },
+      { kind: "Safety", employee: "E1001", message: "My manager has been harassing me and I do not know what to do." },
+      { kind: "Safety", employee: "E1003", message: "A colleague threatened me in the office today." },
+      { kind: "Mock action", employee: "E1001", demo: 3, message: "My manager has been harassing me. Please create a mock HR ticket now." },
+      { kind: "Out of scope", employee: "", message: "What is the capital of France?" },
+      { kind: "Out of scope", employee: "", message: "What is the company's parental leave entitlement for employees in Germany?" },
+    ];
+
+    function json(value) {
+      return JSON.stringify(value ?? null, null, 2);
+    }
+
+    function setStatus(message, state = "idle") {
+      status.textContent = message;
+      status.dataset.state = state;
+    }
+
+    function setPlanner(plannerName) {
+      planner.textContent = plannerName ? `Planner used: ${plannerName}` : "";
+      if (plannerName) {
+        planner.dataset.mode = plannerName;
+      } else {
+        delete planner.dataset.mode;
+      }
+    }
+
+    function createEmptyItem(text) {
+      const empty = document.createElement("li");
+      empty.className = "empty-item";
+      empty.textContent = text;
+      return empty;
+    }
+
+    function clearResults() {
+      resetStageChecks();
+      resultPanel.hidden = true;
+      answer.textContent = "";
+      setPlanner("");
+      citations.replaceChildren();
+      trace.replaceChildren();
+      response.textContent = "";
+    }
+
+    function renderCitations(items) {
+      if (!Array.isArray(items) || items.length === 0) {
+        citations.append(createEmptyItem("No policy citation was returned for this response."));
+        return;
+      }
+
+      for (const citation of items) {
+        const item = document.createElement("li");
+        const source = document.createElement("strong");
+        source.className = "citation-source";
+        source.textContent = `${citation.document || "Unknown document"} — ${citation.section || "Unknown section"}`;
+        const snippet = document.createElement("div");
+        snippet.className = "citation-snippet";
+        snippet.textContent = citation.snippet || "No snippet returned.";
+        item.append(source, snippet);
+        citations.append(item);
+      }
+    }
+
+    function renderTrace(steps) {
+      if (!Array.isArray(steps) || steps.length === 0) {
+        trace.append(createEmptyItem("No MCP tool call was needed for this response."));
+        return;
+      }
+
+      for (const step of steps) {
+        const item = document.createElement("li");
+        const tool = document.createElement("strong");
+        tool.className = "tool-name";
+        tool.textContent = step.tool || "Unknown MCP tool";
+
+        const argumentsLabel = document.createElement("span");
+        argumentsLabel.className = "trace-label";
+        argumentsLabel.textContent = "Arguments sent";
+        const arguments = document.createElement("pre");
+        arguments.textContent = json(step.arguments);
+
+        const resultLabel = document.createElement("span");
+        resultLabel.className = "trace-label";
+        resultLabel.textContent = "Returned result preview";
+        const result = document.createElement("pre");
+        result.textContent = json(step.result_preview ?? step.result_summary);
+
+        item.append(tool, argumentsLabel, arguments, resultLabel, result);
+        trace.append(item);
+      }
+    }
+
+    function renderUnavailableEvidence() {
+      citations.append(createEmptyItem("Citations are unavailable because the request did not complete."));
+      trace.append(createEmptyItem("No MCP activity is available because the request did not complete."));
+    }
+
+    function renderResult(body) {
+      resultPanel.hidden = false;
+      answer.textContent = body.answer || body.detail || "No answer was returned.";
+      setPlanner(body.planner);
+      if (body.answer || body.planner || Array.isArray(body.citations) || Array.isArray(body.trace)) {
+        renderCitations(body.citations);
+        renderTrace(body.trace);
+      } else {
+        renderUnavailableEvidence();
+      }
+      response.textContent = json(body);
+      applyStageChecks(body);
+    }
+
+    function resetStageChecks(label = "Normal LLM-enabled path") {
+      workflowNodes.forEach((node) => node.removeAttribute("data-called"));
+      if (workflowBadge) workflowBadge.textContent = label;
+    }
+
+    // Mark only the stages the returned payload proves were used. The planner
+    // field distinguishes the LLM path from the deterministic and gate paths,
+    // and the trace shows whether MCP tools actually ran, so a safety-gated or
+    // clarification response does not tick the planner stages.
+    function applyStageChecks(body) {
+      const planner = String(body.planner || "");
+      const calls = Array.isArray(body.trace) ? body.trace.length : 0;
+      const usedLlm = planner === "llm";
+      const called = {
+        request: true,
+        guardrails: true,
+        plan: usedLlm,
+        retrieve: calls > 0,
+        "use-results": usedLlm && calls > 0,
+        explain: Boolean(body.answer),
+      };
+      workflowNodes.forEach((node) => {
+        node.dataset.called = called[node.dataset.node] ? "yes" : "no";
+      });
+      if (!workflowBadge) return;
+      if (usedLlm) workflowBadge.textContent = "LLM-enabled path (this request)";
+      else if (planner.endsWith("gate")) workflowBadge.textContent = `Deterministic ${planner} (this request)`;
+      else if (planner) workflowBadge.textContent = `Deterministic path: ${planner} (this request)`;
+      else workflowBadge.textContent = "Path not reported";
+    }
+
+    function groupHeadingRow(text) {
+      const row = document.createElement("tr");
+      row.className = "scenario-group";
+      const cell = document.createElement("td");
+      cell.colSpan = 3;
+      cell.textContent = text;
+      row.append(cell);
+      return row;
+    }
+
+    function scenarioRow(scenario, index) {
+      const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 3;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scenario-row";
+      button.dataset.scenario = String(index);
+      if (scenario.demo) button.dataset.demo = String(scenario.demo);
+
+      const kind = document.createElement("span");
+      kind.className = "scenario-kind";
+      kind.textContent = scenario.demo ? `Demo ${scenario.demo} · ${scenario.kind}` : scenario.kind;
+
+      const question = document.createElement("span");
+      question.textContent = scenario.message;
+
+      const who = document.createElement("small");
+      who.textContent = scenario.employee || "no ID";
+
+      button.append(kind, question, who);
+      cell.append(button);
+      row.append(cell);
+      return row;
+    }
+
+    function renderScenarioRows() {
+      const fragment = document.createDocumentFragment();
+      // Keep the index into `scenarios` while displaying the recorded-walkthrough
+      // scenarios first, in speaking order, so a click on camera is one glance.
+      const entries = scenarios.map((scenario, index) => ({ scenario, index }));
+      const demos = entries
+        .filter((entry) => entry.scenario.demo)
+        .sort((a, b) => a.scenario.demo - b.scenario.demo);
+      const rest = entries.filter((entry) => !entry.scenario.demo);
+
+      if (demos.length) fragment.append(groupHeadingRow("Recorded walkthrough — click, then submit"));
+      for (const { scenario, index } of demos) fragment.append(scenarioRow(scenario, index));
+      if (demos.length) fragment.append(groupHeadingRow("Full scenario catalogue"));
+      for (const { scenario, index } of rest) fragment.append(scenarioRow(scenario, index));
+
+      scenarioRows.replaceChildren(fragment);
+    }
+
+    function loadScenario(name) {
+      const scenario = scenarios[Number(name)];
+      if (!scenario) return;
+      messageInput.value = scenario.message;
+      // A scenario that names a record selects it; a policy-only scenario clears
+      // the field so the agent's missing-ID clarification path can be shown.
+      employeeInput.value = scenario.employee;
+      employeeSelect.value = scenario.employee;
+      resetStageChecks();
+      setStatus(
+        scenario.employee
+          ? `Loaded a ${scenario.kind.toLowerCase()} scenario for ${scenario.employee}.`
+          : `Loaded a ${scenario.kind.toLowerCase()} scenario with no employee ID.`,
+        "idle",
+      );
+      messageInput.focus();
+    }
+
+    async function ask() {
+      if (!assistantForm.reportValidity()) return;
+
+      askButton.disabled = true;
+      askButton.setAttribute("aria-busy", "true");
+      askButtonLabel.textContent = "Preparing response…";
+      setStatus("ClearHR is retrieving policy evidence and synthetic record details…", "loading");
+      clearResults();
+
+      try {
+        const result = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: messageInput.value,
+            employee_id: employeeInput.value || null,
+            confirm_mock_action: confirmationInput.checked,
+          }),
+          cache: "no-store",
+        });
+        const body = await result.json().catch(() => ({ detail: "The service returned an invalid response." }));
+        setStatus(result.ok ? "Response received. Review the evidence trace below." : `Request failed (${result.status}).`, result.ok ? "success" : "error");
+        renderResult(body);
+      } catch (_) {
+        setStatus("Request failed. Please retry.", "error");
+        renderResult({ detail: "Unable to contact ClearHR. Please retry." });
+      } finally {
+        // Require a deliberate confirmation for each individual request.
+        confirmationInput.checked = false;
+        askButton.disabled = false;
+        askButton.removeAttribute("aria-busy");
+        askButtonLabel.textContent = "Ask ClearHR";
+        // Refresh after the request settles so the panel reflects the call just
+        // made. Deliberately not awaited: a counter fetch must never delay or
+        // fail the answer the user is waiting for.
+        loadUsage();
+      }
+    }
+
+    function usageTile(label, value, sub) {
+      const tile = document.createElement("div");
+      tile.className = "usage-tile";
+      const labelEl = document.createElement("span");
+      labelEl.className = "usage-label";
+      labelEl.textContent = label;
+      const valueEl = document.createElement("span");
+      valueEl.className = "usage-value";
+      valueEl.textContent = Number(value ?? 0).toLocaleString();
+      tile.append(labelEl, valueEl);
+      if (sub) {
+        const subEl = document.createElement("span");
+        subEl.className = "usage-sub";
+        subEl.textContent = sub;
+        tile.append(subEl);
+      }
+      return tile;
+    }
+
+    function usageRow(name, count, diagnostic) {
+      const row = document.createElement("tr");
+      if (diagnostic) row.className = "usage-diagnostic";
+      const nameCell = document.createElement("td");
+      const code = document.createElement("code");
+      code.textContent = name;
+      nameCell.append(code);
+      if (diagnostic) nameCell.append(document.createTextNode(" — health probe, not agent use"));
+      const countCell = document.createElement("td");
+      countCell.textContent = Number(count).toLocaleString();
+      row.append(nameCell, countCell);
+      return row;
+    }
+
+    function toolCard(tool) {
+      const card = document.createElement("div");
+      card.className = "tool-card";
+      card.dataset.callable = tool.agent_callable ? "yes" : "no";
+
+      const name = document.createElement("code");
+      name.className = "tool-card-name";
+      name.textContent = tool.name;
+
+      const badge = document.createElement("span");
+      badge.className = "tool-badge";
+      badge.textContent = tool.agent_callable
+        ? `Agent tool · ${tool.capability}`
+        : "Diagnostic · model cannot call";
+
+      const description = document.createElement("p");
+      description.textContent = tool.description || "No description published.";
+
+      card.append(name, badge, description);
+
+      // Read the published schema rather than a copy: whatever the MCP server
+      // declares is what the model is offered, so the panel must show that.
+      const schema = tool.inputSchema || {};
+      const properties = schema.properties || {};
+      const required = new Set(schema.required || []);
+      const names = Object.keys(properties);
+      if (names.length) {
+        const label = document.createElement("span");
+        label.className = "tool-params-label";
+        label.textContent = "Arguments";
+        const list = document.createElement("ul");
+        list.className = "tool-params";
+        for (const key of names) {
+          const item = document.createElement("li");
+          const code = document.createElement("code");
+          code.textContent = key;
+          item.append(code, document.createTextNode(` — ${properties[key].type || "any"}`));
+          if (required.has(key)) {
+            const flag = document.createElement("span");
+            flag.className = "tool-required";
+            flag.textContent = " · required";
+            item.append(flag);
+          }
+          list.append(item);
+        }
+        card.append(label, list);
+      }
+      return card;
+    }
+
+    async function loadTools() {
+      try {
+        const result = await fetch("/tools", { cache: "no-store" });
+        if (!result.ok) throw new Error(String(result.status));
+        const body = await result.json();
+        const tools = body.tools || [];
+        toolGrid.replaceChildren(...tools.map(toolCard));
+        toolsBadge.textContent =
+          `${tools.length} discovered · ${body.agent_callable_count} offered to the planner`;
+      } catch (_) {
+        toolGrid.replaceChildren();
+        toolsBadge.textContent = "Tool discovery unavailable";
+      }
+    }
+
+    // Say what the token total actually covers. If a call returned no usage
+    // block, the total is short by that call, and the tile should admit it
+    // rather than presenting a partial figure as complete.
+    function tokenSubtitle(llm) {
+      const measured = llm.calls_with_reported_tokens || 0;
+      const calls = llm.provider_calls || 0;
+      if (calls === 0) return "No provider call yet";
+      const split = `${Number(llm.prompt_tokens || 0).toLocaleString()} prompt · ${Number(llm.completion_tokens || 0).toLocaleString()} completion`;
+      return measured === calls ? split : `${split} — reported for ${measured} of ${calls} calls`;
+    }
+
+    function renderUsage(body) {
+      const mcp = body.mcp || {};
+      const llm = body.llm || {};
+      const planners = body.planners || {};
+      const plannerMix = Object.entries(planners).map(([name, n]) => `${n} ${name}`).join(" · ");
+
+      usageTiles.replaceChildren(
+        usageTile("LLM provider calls", llm.provider_calls,
+          llm.provider_failures ? `${llm.provider_failures} fell back to the deterministic planner` : "One per tool-use round trip"),
+        usageTile("MCP tool calls", mcp.tool_calls, "Agent calls only"),
+        usageTile("LLM tokens", llm.total_tokens, tokenSubtitle(llm)),
+        usageTile("Chat requests", body.chat_requests, plannerMix ? `Planner used: ${plannerMix}` : "No request yet"),
+        usageTile("Schema discoveries", mcp.schema_discoveries,
+          mcp.diagnostic_schema_discoveries
+            ? `by the planner · ${Number(mcp.diagnostic_schema_discoveries).toLocaleString()} more from health and this panel`
+            : "list_tools by the planner"),
+      );
+
+      const rows = Object.entries(mcp.by_tool || {}).map(([name, n]) => usageRow(name, n, false));
+      for (const [name, n] of Object.entries(mcp.diagnostic_by_tool || {})) rows.push(usageRow(name, n, true));
+      if (rows.length === 0) {
+        const empty = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 2;
+        cell.className = "empty-item";
+        cell.textContent = "No MCP tool has been called yet on this instance.";
+        empty.append(cell);
+        rows.push(empty);
+      }
+      usageRows.replaceChildren(...rows);
+
+      // State the window the counts cover. Without it a reader can mistake a
+      // freshly woken free-tier instance's zeros for the system never running.
+      const totals = body.process_totals || {};
+      const minutes = Math.max(1, Math.round((body.uptime_seconds || 0) / 60));
+      if (body.marked_at) {
+        usageWindow.textContent = `Counting since ${body.marked_at}`;
+        usageNote.textContent =
+          `Figures above cover this window only. Nothing was discarded — since this process ` +
+          `started at ${body.process_started_at} it has served ${Number(totals.chat_requests || 0).toLocaleString()} ` +
+          `chat requests, ${Number(totals.llm_provider_calls || 0).toLocaleString()} LLM calls and ` +
+          `${Number(totals.mcp_tool_calls || 0).toLocaleString()} MCP tool calls in total. The free ` +
+          `instance sleeps when idle and wakes as a new process, which starts all of this at zero.`;
+      } else {
+        usageWindow.textContent = "";
+        usageNote.textContent =
+          `Counted in this web process only, since it started at ${body.process_started_at} ` +
+          `(about ${minutes} minute${minutes === 1 ? "" : "s"} ago). The free instance sleeps when ` +
+          `idle and wakes as a new process, which resets these to zero.`;
+      }
+    }
+
+    async function loadUsage() {
+      try {
+        const result = await fetch("/usage", { cache: "no-store" });
+        if (!result.ok) throw new Error(String(result.status));
+        renderUsage(await result.json());
+      } catch (_) {
+        usageNote.textContent = "Call counters are unavailable right now.";
+      }
+    }
+
+    assistantForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      ask();
+    });
+
+    usageRefresh.addEventListener("click", loadUsage);
+
+    // Starting a window moves a baseline; the running process totals stay in
+    // the note below, so this narrows the view without discarding evidence.
+    usageMark.addEventListener("click", async () => {
+      usageMark.disabled = true;
+      try {
+        const result = await fetch("/usage/mark", { method: "POST", cache: "no-store" });
+        if (!result.ok) throw new Error(String(result.status));
+        renderUsage(await result.json());
+      } catch (_) {
+        usageNote.textContent = "Could not start a new counting window.";
+      } finally {
+        usageMark.disabled = false;
+      }
+    });
+
+    renderScenarioRows();
+    loadUsage();
+    loadTools();
+
+    // Delegated: scenario rows are built at runtime from the catalogue above.
+    scenarioRows.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-scenario]");
+      if (button) loadScenario(button.dataset.scenario);
+    });
+
+    employeeSelect.addEventListener("change", () => {
+      employeeInput.value = employeeSelect.value;
+      resetStageChecks();
+    });
+
+    // Keep the dropdown honest if the ID is typed directly.
+    employeeInput.addEventListener("input", () => {
+      const match = [...employeeSelect.options].some((option) => option.value === employeeInput.value);
+      employeeSelect.value = match ? employeeInput.value : "";
+    });
+
+    document.querySelectorAll("[data-record]").forEach((button) => {
+      button.addEventListener("click", () => {
+        employeeInput.value = button.dataset.record;
+        employeeSelect.value = button.dataset.record;
+        setStatus(`Selected synthetic record ${button.dataset.record}.`, "idle");
+      });
+    });
+
+    messageInput.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+        event.preventDefault();
+        assistantForm.requestSubmit();
+      }
+    });
+  </script>
+</body>
+</html>

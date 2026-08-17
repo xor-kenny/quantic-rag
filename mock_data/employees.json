@@ -1,0 +1,5 @@
+[
+  {"employee_id":"E1001","name":"Avery Chen","employment_type":"full-time","role":"Product Analyst","manager_name":"Morgan Lee","home_state":"New York","office":"New York"},
+  {"employee_id":"E1002","name":"Jordan Patel","employment_type":"part-time","role":"Support Specialist","manager_name":"Riley Kim","home_state":"Illinois","office":"Remote"},
+  {"employee_id":"E1003","name":"Sam Rivera","employment_type":"full-time","role":"Software Engineer","manager_name":"Morgan Lee","home_state":"California","office":"San Francisco"}
+]

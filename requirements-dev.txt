@@ -1,0 +1,6 @@
+# Local development and CI checks. Production hosts install requirements.txt
+# only, so deployment images do not include test and lint tooling.
+-r requirements.txt
+pytest==8.4.2
+httpx==0.28.1
+ruff==0.14.4

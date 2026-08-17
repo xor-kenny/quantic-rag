@@ -1,0 +1,11 @@
+fastapi==0.140.6
+uvicorn[standard]==0.51.0
+# Pin the mature v1.12 SDK: its stdio client/server contract is exercised in CI.
+mcp==1.12.4
+pydantic==2.13.4
+# LLM planner. The app degrades to deterministic routing when no key is set,
+# so this is required for the graded agentic behaviour but not to boot.
+openai==1.109.1
+# Local semantic embeddings for the optional dense RAG backend.  The model is
+# cached under data/ during host build and loaded only in the MCP child process.
+fastembed==0.8.0
